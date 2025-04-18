@@ -1,7 +1,43 @@
-import { Elysia } from "elysia";
+import { Elysia, type Context } from "elysia";
 
-const app = new Elysia().get("/", () => "Hello Elysia").listen(3000);
+interface WithdrawRequestCollateral {
+  collateralId: string;
+  amount: string;
+}
 
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+interface WithdrawRequestPayload {
+  reqId: string;
+  settleBeforeSec: string;
+  shareAmount: string;
+  expectedCollaterals: WithdrawRequestCollateral[];
+  retryCount: number;
+}
+
+interface WithdrawRequestResult {
+  reqId: string;
+  success: boolean;
+}
+
+const app = new Elysia({ aot: false })
+  .get("/", () => "works")
+  .get("/ping", () => "pong")
+  .post("/withdraw-req", ({ body }) => {
+    const payload = body as WithdrawRequestPayload;
+
+    console.log(payload);
+
+    const result = {
+      reqId: payload.reqId,
+      success: true,
+    } satisfies WithdrawRequestResult;
+
+    return result;
+  });
+
+interface Env { }
+
+export default {
+  async fetch(request: Request, _env: Env, _ctx: Context): Promise<Response> {
+    return await app.fetch(request)
+  }
+}

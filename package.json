@@ -1,5 +1,5 @@
 {
-  "name": "sample-vault-webhook",
+  "name": "vault-webhook-caesar",
   "version": "1.0.0",
   "scripts": {
     "dev": "wrangler2 dev src/index.ts",

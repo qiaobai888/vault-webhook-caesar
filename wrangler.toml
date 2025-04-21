@@ -2,3 +2,6 @@ name = "vault-webhook-caesar"
 main = "src/index.ts"
 compatibility_date = "2025-04-17"
 compatibility_flags = ["nodejs_compat"]
+
+[observability.logs]
+enabled = true
